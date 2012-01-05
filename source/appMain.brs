@@ -25,12 +25,12 @@ Sub Main(args As Dynamic)
                HDBranded:False
                ShortDescriptionLine1:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
                ShortDescriptionLine2:""
-               Description:"Fun stuff"
+               Description:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
                Rating:"NR"
                StarRating:"80"
                Length:1280
-               Categories:["Technology","Talk"]
-               Title:"Paul Farmer talks about cool things"
+               Categories:["Global Health","Talk"]
+               Title:"Paul Farmer"
                }
 
 

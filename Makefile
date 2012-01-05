@@ -17,5 +17,6 @@
 ##########################################################################  
 APPNAME = harvardtest
 VERSION = 1.0
+ZIP_EXCLUDE= -x \*git\*  # do not packeage the source control stuff.
 
 include ../app.mk
