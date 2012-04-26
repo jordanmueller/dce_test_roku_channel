@@ -213,3 +213,19 @@ Function http_post_from_string_with_timeout(val As String, seconds as Integer) a
 
     return str
 End Function
+
+'******************************************************
+'Print an object as a string for debugging. If it is
+'very long print the first 500 chars.
+'******************************************************
+Sub Dbg(pre As Dynamic, o=invalid As Dynamic)
+    p = AnyToString(pre)
+    if p = invalid p = ""
+    if o = invalid o = ""
+    s = AnyToString(o)
+    if s = invalid s = "???: " + type(o)
+    if Len(s) > 4000
+        s = Left(s, 4000)
+    endif
+    print p + s
+End Sub

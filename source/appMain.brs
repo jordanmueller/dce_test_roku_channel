@@ -31,15 +31,16 @@ Sub Main(args As Dynamic)
                IsHD:False
                HDBranded:False
                'ShortDescriptionLine1:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
-               ShortDescriptionLine1:myjson["test"][2]
+               ShortDescriptionLine1:myjson["paul_farmer"]["description"]
                ShortDescriptionLine2:""
                'Description:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
-               Description:myjson["test"][2]
+               Description:myjson["paul_farmer"]["description"]
+               url:myjson["paul_farmer"]["stream_url"]
                Rating:"NR"
                StarRating:"80"
                Length:1280
                Categories:["Global Health","Talk"]
-               Title:"Paul Farmer"
+               Title:myjson["paul_farmer"]["description"]
                }
 
 
@@ -89,6 +90,7 @@ Function showSpringboardScreen(item as object) As Boolean
     screen.SetMessagePort(port)
     screen.AllowUpdates(false)
     if item <> invalid and type(item) = "roAssociativeArray"
+    	print "yes it is"
         screen.SetContent(item)
     endif
 
@@ -112,7 +114,7 @@ Function showSpringboardScreen(item as object) As Boolean
             else if msg.isButtonPressed()
                     print "Button pressed: "; msg.GetIndex(); " " msg.GetData()
                     if msg.GetIndex() = 1
-                         displayVideo("")
+                         displayVideo(item)
                     else if msg.GetIndex() = 2
                          return true
                     endif
@@ -146,25 +148,29 @@ Function displayVideo(args As Dynamic)
     'bitrates  = [2048]    ' >=1.1Mbps = 4 dots
     bitrates  = [0]    
 
-    urls = ["http://podcast.dce.harvard.edu/2012/01/13669/L01/13669-20110901-L01-1-mp4-av1000-16x9.mp4"]
+    'urls = ["http://podcast.dce.harvard.edu/2012/01/13669/L01/13669-20110901-L01-1-mp4-av1000-16x9.mp4"]
+    urls = ["blank"]
     qualities = ["SD"]
     StreamFormat = "mp4"
     title = "Paul Farmer - Haiti After the Earthquake: iWoooooA Critical Sociology - hour 1"
     srt = ""
 
     if type(args) = "roAssociativeArray"
-        if type(args.url) = "roString" and args.url <> "" then
+    	print "I am here"
+    	print args.url
+        if type(args.url) = "String" and args.url <> "" then
             urls[0] = args.url
+            print urls[0]
         end if
-        if type(args.StreamFormat) = "roString" and args.StreamFormat <> "" then
+        if type(args.StreamFormat) = "String" and args.StreamFormat <> "" then
             StreamFormat = args.StreamFormat
         end if
-        if type(args.title) = "roString" and args.title <> "" then
+        if type(args.title) = "String" and args.title <> "" then
             title = args.title
         else 
             title = ""
         end if
-        if type(args.srt) = "roString" and args.srt <> "" then
+        if type(args.srt) = "String" and args.srt <> "" then
             srt = args.StreamFormat
         else 
             srt = ""
