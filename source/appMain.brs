@@ -13,6 +13,13 @@ Sub Main(args As Dynamic)
     print "Type args = "; type(args)
     print "Type args.url = "; type(args.url)
 
+    'test to use some json
+    http = NewHttp("http://people.fas.harvard.edu/~jmueller/roku_json/test.json")
+    rsp = http.GetToStringWithRetry()
+    json = BSJSON()
+    myjson = json.JsonDecode(rsp)
+
+
     'has to live for the duration of the whole app to prevent flashing
     'back to the roku home screen.
     screenFacade = CreateObject("roPosterScreen")
@@ -23,9 +30,11 @@ Sub Main(args As Dynamic)
                HDPosterUrl:"file://pkg:/images/PaulFarmer.jpg"
                IsHD:False
                HDBranded:False
-               ShortDescriptionLine1:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
+               'ShortDescriptionLine1:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
+               ShortDescriptionLine1:myjson["test"][2]
                ShortDescriptionLine2:""
-               Description:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
+               'Description:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
+               Description:myjson["test"][2]
                Rating:"NR"
                StarRating:"80"
                Length:1280
@@ -140,7 +149,7 @@ Function displayVideo(args As Dynamic)
     urls = ["http://podcast.dce.harvard.edu/2012/01/13669/L01/13669-20110901-L01-1-mp4-av1000-16x9.mp4"]
     qualities = ["SD"]
     StreamFormat = "mp4"
-    title = "Paul Farmer - Haiti After the Earthquake: A Critical Sociology - hour 1"
+    title = "Paul Farmer - Haiti After the Earthquake: iWoooooA Critical Sociology - hour 1"
     srt = ""
 
     if type(args) = "roAssociativeArray"
