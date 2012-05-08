@@ -7,44 +7,18 @@ Sub Main(args As Dynamic)
     'initialize theme attributes like titles, logos and overhang color
     initTheme()
 
-    if type(args) = "roAssociativeArray" and type(args.url) = "roString" then
-        displayVideo(args)
-    end if
-    print "Type args = "; type(args)
-    print "Type args.url = "; type(args.url)
-
     'test to use some json
     http = NewHttp("http://people.fas.harvard.edu/~jmueller/roku_json/test.json")
     rsp = http.GetToStringWithRetry()
     json = BSJSON()
     myjson = json.JsonDecode(rsp)
 
-
     'has to live for the duration of the whole app to prevent flashing
     'back to the roku home screen.
     screenFacade = CreateObject("roPosterScreen")
     screenFacade.show()
 
-    itemMpeg4 = {   ContentType:"episode"
-               SDPosterUrl:"file://pkg:/images/PaulFarmer.jpg"
-               HDPosterUrl:"file://pkg:/images/PaulFarmer.jpg"
-               IsHD:False
-               HDBranded:False
-               'ShortDescriptionLine1:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
-               ShortDescriptionLine1:myjson["paul_farmer"]["description"]
-               ShortDescriptionLine2:""
-               'Description:"Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
-               Description:myjson["paul_farmer"]["description"]
-               url:myjson["paul_farmer"]["stream_url"]
-               Rating:"NR"
-               StarRating:"80"
-               Length:1280
-               Categories:["Global Health","Talk"]
-               Title:myjson["paul_farmer"]["description"]
-               }
-
-
-   showSpringboardScreen(itemMpeg4) 
+    showSpringboardScreen(myjson.paul_farmer) 
     
     'exit the app gently so that the screen doesn't flash to black
     screenFacade.showMessage("")
@@ -90,7 +64,6 @@ Function showSpringboardScreen(item as object) As Boolean
     screen.SetMessagePort(port)
     screen.AllowUpdates(false)
     if item <> invalid and type(item) = "roAssociativeArray"
-    	print "yes it is"
         screen.SetContent(item)
     endif
 
@@ -141,58 +114,8 @@ Function displayVideo(args As Dynamic)
     video = CreateObject("roVideoScreen")
     video.setMessagePort(p)
 
-    'bitrates  = [0]          ' 0 = no dots, adaptive bitrate
-    'bitrates  = [348]    ' <500 Kbps = 1 dot
-    'bitrates  = [664]    ' <800 Kbps = 2 dots
-    'bitrates  = [996]    ' <1.1Mbps  = 3 dots
-    'bitrates  = [2048]    ' >=1.1Mbps = 4 dots
-    bitrates  = [0]    
-
-    'urls = ["http://podcast.dce.harvard.edu/2012/01/13669/L01/13669-20110901-L01-1-mp4-av1000-16x9.mp4"]
-    urls = ["blank"]
-    qualities = ["SD"]
-    StreamFormat = "mp4"
-    title = "Paul Farmer - Haiti After the Earthquake: iWoooooA Critical Sociology - hour 1"
-    srt = ""
-
-    if type(args) = "roAssociativeArray"
-    	print "I am here"
-    	print args.url
-        if type(args.url) = "String" and args.url <> "" then
-            urls[0] = args.url
-            print urls[0]
-        end if
-        if type(args.StreamFormat) = "String" and args.StreamFormat <> "" then
-            StreamFormat = args.StreamFormat
-        end if
-        if type(args.title) = "String" and args.title <> "" then
-            title = args.title
-        else 
-            title = ""
-        end if
-        if type(args.srt) = "String" and args.srt <> "" then
-            srt = args.StreamFormat
-        else 
-            srt = ""
-        end if
-    end if
-    
-    videoclip = CreateObject("roAssociativeArray")
-    videoclip.StreamBitrates = bitrates
-    videoclip.StreamUrls = urls
-    videoclip.StreamQualities = qualities
-    videoclip.StreamFormat = StreamFormat
-    videoclip.Title = title
-    print "srt = ";srt
-    if srt <> invalid and srt <> "" then
-        videoclip.SubtitleUrl = srt
-    end if
-    
-    video.SetContent(videoclip)
+    video.SetContent(args)
     video.show()
-
-    lastSavedPos   = 0
-    statusInterval = 10 'position must change by more than this number of seconds before saving
 
     while true
         msg = wait(0, video.GetMessagePort())
@@ -200,16 +123,6 @@ Function displayVideo(args As Dynamic)
             if msg.isScreenClosed() then 'ScreenClosed event
                 print "Closing video screen"
                 exit while
-            else if msg.isPlaybackPosition() then
-                nowpos = msg.GetIndex()
-                if nowpos > 10000
-                    
-                end if
-                if nowpos > 0
-                    if abs(nowpos - lastSavedPos) > statusInterval
-                        lastSavedPos = nowpos
-                    end if
-                end if
             else if msg.isRequestFailed()
                 print "play failed: "; msg.GetMessage()
             else

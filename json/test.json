@@ -1,0 +1,12 @@
+{
+    "paul_farmer" : {   
+               "SDPosterUrl":"http://people.fas.harvard.edu/~jmueller/images/PaulFarmer.jpg"
+               "HDPosterUrl":"http://people.fas.harvard.edu/~jmueller/images/PaulFarmer.jpg"
+               "Description":"New Description Paul Farmer: Case Studies in Global Health: Biosocial Perspectives"
+               "StreamUrls": ["http://podcast.dce.harvard.edu/2012/01/13669/L01/13669-20110901-L01-1-mp4-av1000-16x9.mp4"]
+               "Title":"Paul Farmer"
+               "StreamFormat":"mp4"
+               "StreamQualities":"SD"
+               "StreamBitrates":["0"]
+               }
+}

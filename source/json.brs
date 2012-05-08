@@ -279,35 +279,35 @@ Function json_next_token(json As Object, index As Object)
     m.EatWhitespace(json, index)
     
     if index[0] = json.Count() then
-        print "Index: " + str(index[0]) + " TOKEN NONE"
+        'print "Index: " + str(index[0]) + " TOKEN NONE"
         return m.TOKEN_NONE
     end if
     
     c = json[index[0]]
     index[0] = index[0] + 1
     if c="{" then
-        print "Index: " + str(index[0]) + " TOKEN CURLY OPEN"
+        'print "Index: " + str(index[0]) + " TOKEN CURLY OPEN"
         return m.TOKEN_CURLY_OPEN
     else if c="}" then
-        print "Index: " + str(index[0]) + " TOKEN CURLY CLOSE"
+        'print "Index: " + str(index[0]) + " TOKEN CURLY CLOSE"
         return m.TOKEN_CURLY_CLOSE
     else if c="[" then
-        print "Index: " + str(index[0]) + " TOKEN SQUARE OPEN"
+        'print "Index: " + str(index[0]) + " TOKEN SQUARE OPEN"
         return m.TOKEN_SQUARED_OPEN
     else if c="]" then
-        print "Index: " + str(index[0]) + " TOKEN SQUARE CLOSE"
+        'print "Index: " + str(index[0]) + " TOKEN SQUARE CLOSE"
         return m.TOKEN_SQUARED_CLOSE
     else if c="," then
-        print "Index: " + str(index[0]) + " TOKEN COMMA"
+        'print "Index: " + str(index[0]) + " TOKEN COMMA"
         return m.TOKEN_COMMA
     else if c=CHR(34) then 'Double quote
-        print "Index: " + str(index[0]) + " TOKEN STRING"
+        'print "Index: " + str(index[0]) + " TOKEN STRING"
         return m.TOKEN_STRING
     else if c="0" or c="1" or c="2" or c="3" or c="4" or c="5" or c="6" or c="7" or c="8" or c="9" or c="-" then 
-        print "Index: " + str(index[0]) + " TOKEN NUMBER"
+        'print "Index: " + str(index[0]) + " TOKEN NUMBER"
         return m.TOKEN_NUMBER
     else if c=":" then
-        print "Index: " + str(index[0]) + " TOKEN COLON"
+        'print "Index: " + str(index[0]) + " TOKEN COLON"
         return m.TOKEN_COLON
     end if
     index[0] = index[0] - 1
@@ -318,7 +318,7 @@ Function json_next_token(json As Object, index As Object)
     if remainingLength >= 5 then
         if json[index[0]] = "f" and  json[index[0] + 1] = "a" and json[index[0] + 2] = "l" and json[index[0] + 3] = "s" and json[index[0] + 4] = "e" then
             index[0] = index[0] + 5
-            print "Index: " + str(index[0]) + " TOKEN FALSE"
+            'print "Index: " + str(index[0]) + " TOKEN FALSE"
             return m.TOKEN_FALSE
         end if
     end if
@@ -327,7 +327,7 @@ Function json_next_token(json As Object, index As Object)
     if remainingLength >= 4 then
         if json[index[0]] = "t" and json[index[0] + 1] = "r" and json[index[0] + 2] = "u" and json[index[0] + 3] = "e" then
             index[0] = index[0] + 4
-            print "Index: " + str(index[0]) + " TOKEN TRUE"
+            'print "Index: " + str(index[0]) + " TOKEN TRUE"
             return m.TOKEN_TRUE
         end if
     end if
@@ -336,11 +336,11 @@ Function json_next_token(json As Object, index As Object)
     if remainingLength >= 4 then
         if json[index[0]] = "n" and json[index[0] + 1] = "u" and json[index[0] + 2] = "l" and json[index[0] + 3] = "l" then
             index[0] = index[0] + 4
-            print "Index: " + str(index[0]) + " TOKEN NULL"
+            'print "Index: " + str(index[0]) + " TOKEN NULL"
             return m.TOKEN_NULL
         end if
     end if
     
-    print "Index: " + str(index[0]) + " TOKEN NONE"
+    'print "Index: " + str(index[0]) + " TOKEN NONE"
     return m.TOKEN_NONE
 End Function
